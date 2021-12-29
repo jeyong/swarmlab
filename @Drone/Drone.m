@@ -1,27 +1,29 @@
 classdef Drone < handle
     % DRONE : This class is meant to create and manage drones.
+    % 이 class는 drones을 생성하고 관리
     % Every drone is either a fixed-wing or a quadcopter (drone_type).
-    %
+    % 모든 drone은 고정익 or 쿼드콥터 중에 하나(drone_type)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Drone general properties:
+    % Drone 일반 속성 :
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % drone_type:
     %           enumerator class DroneType
     % autopilot_version:
-    %           1 for quad attitude, 2 for quad speed, 3 for quad acc
+    %           1: quad attitude, 2: quad speed, 3: quad acc
     % p_drone, p_battery, p_sim, p_physics, map:
     %           parameter structures associated to the drone (p_drone),
     %           the battery (p_battery), the simulation (p_sim), physics (p_physics) or the map (map)
     % pos_ned:
-    %           vect3, position coordinates in the inertial frame
+    %           vect3, position coordinates in the inertial frame (inertial 프레임에서 position 좌표)
     %           (North, East and Down) [m]
     % vel_xyz:
     %           vect3, velocity in body frame (vx, vy, vz) [m/s]
     % attitude:
     %           vect3, attitude of the drone (phi, theta, psi) [rad]
     % rates:
-    %           vect3, angular rates w.r.t. phi, theta and psi  [rad/s]
-    % pos_ned_history: matrix of size n, 3: each row is vect of previous
+    %           vect3, angular rates w.r.t. phi, theta and psi  [rad/s] (각속도)
+    % pos_ned_history: matrix of size n, 3: each row is vect of previous ()
     %                  pos_ned, position coordinates in the inertial frame 
     %                  (North, East and Down) [m]
     %
@@ -34,6 +36,7 @@ classdef Drone < handle
     % path_len:
     %           path lenght of the drone, from the beginning of the
     %           simulation
+    %           drone의 path 길이, 시뮬레이션 시작지점으로부터의 
     % z_hat:
     %           vect22, estimated extended state
     % airdata:
@@ -41,21 +44,27 @@ classdef Drone < handle
     % command:
     %           vect4, commmand input. The variables contained depend on
     %           the autopilot version
+    %           명령 입력. 포함된 변수는 autopilot version을 따른다.
     % prev_command:
     %           vect4, store the previous command input
+    %           이전 명령 입력을 저장
     % full_command:
     %           vect19, full command state vector, used in the function
     %           plot_uav_state_variable
+    %           전체 명령 state vector로 plot_uav_state_variable 함수에서 사용. 
     % delta:
     %           vect4,
     %           for quadcopter: normalized angular velocities commanded to
     %           the 4 motors
+    %           쿼드콥터용 : normalied 각속도가 4개 모터 명령으로 사용
     % forces:
     %           vect3, 3D vector of the forces acting on the drone [N]
     %           computed in the body frame
+    %           drone에 작용하는 힘의 3D 벡터
     % moments:
     %           vect3, 3D vector of the moments acting on the drone [N*m]
     %           computed in the body frame
+    %           drone에 작용하는 모멘텀의 3D 벡터
     % wind:
     %           vect6, wind and gusts in xyz coordinates
     %
